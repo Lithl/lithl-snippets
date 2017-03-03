@@ -30,8 +30,8 @@ the chain. For example:
     // @{bar} = "2"
     // @{baz} = "@{foo} + @{bar}"
     resolveAutocalc('baz', function(values) {
-        // values = { foo: 3, bar: 2, baz: 5 }
-      });
+      // values = { foo: 3, bar: 2, baz: 5 }
+    });
 
 The first parameter to `resolveAutocalc` can be either a string or an array of
 strings. Each string should be the name of an attribute.

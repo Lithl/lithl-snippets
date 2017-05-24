@@ -30,7 +30,7 @@
   'use strict';
 
   const mathCache = {};
-  const VERSION = '0.1.0';
+  const VERSION = '0.1.1';
 
   /**
    * Processes a waterfall of asynchronous tasks. Each task will occur in the
@@ -75,7 +75,7 @@
   function waterfallTask(name, tasks) {
     return function(prev, callback) {
       // QUESTION(brianshields): how does this tructure handle repeating fields?
-      getAttrs([name], function(Val) {
+      getAttrs([name], function(val) {
         const referencedAttrs = val[name].match(/@\{.+?\}/g);
         if (referencedAttrs && referencedAttrs.length) {
           _.each(referencedAttrs, (ra) => {

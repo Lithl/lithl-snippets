@@ -5,6 +5,10 @@ and though it assumes it will be deployed as an add-on (features of GAS such as
 `DocumentApp.getUi()` are only available to add-ons), what little functionality
 it does have is only accessible in developer logs.
 
+## Dependencies
+This sample depends on the [OAuth2] apps script library. You can find the
+distribution version of that library in [third_party/apps-script-oauth2].
+
 ## Running the sample
 First, you must obtain a client id and client secret for your app. As of this
 writing, this can only be obtained by directly messaging knighty. Add your id
@@ -42,5 +46,7 @@ See the [FimFiction API Documentation] and [Google Apps Script Documentation]
 for more information on what information you can send to and receive from
 FimFiction, and what you can do within the apps script environment.
 
+[OAuth2]: https://github.com/googlesamples/apps-script-oauth2
+[third_party/apps-script-oauth2]: https://github.com/Lithl/lithl-snippets/tree/master/third_party/apps-script-oauth2
 [FimFiction API Documentation]: https://www.fimfiction.net/developers/api/v2/docs
 [Google Apps Script Documentation]: https://developers.google.com/apps-script/

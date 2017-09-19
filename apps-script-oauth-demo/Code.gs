@@ -84,51 +84,34 @@ function execute() {
  * authentication flow.
  */
 function getService() {
-  const cache = CacheService.getUserCache();
-  if (!cache.get('state')) {
-    cache.put('state',
-        ScriptApp.newStateToken().withMethod('authCallback').createToken());
-  }
   return OAuth2.createService('fimfiction')
       .setAuthorizationBaseUrl(AUTH_URI)
       .setTokenUrl(TOKEN_URI)
       .setClientId(CLIENT_ID)
       .setClientSecret(CLIENT_SECRET)
-      // note: setCallbackFunction is required by the library, but gets
-      // overridden by the withMethod field of the state token
       .setCallbackFunction('authCallback')
       .setPropertyStore(PropertiesService.getUserProperties())
       // space-separated list of scopes you need for your app
       .setScope('read_stories')
       .setParam('response_type', 'code')
-      .setParam('redirect_uri', REDIRECT_URI)
-      .setParam('state', cache.get('state'));
+      .setParam('redirect_uri', REDIRECT_URI);
 }
 
 /**
  * Called when the user hits REDIRECT_URI after passing through FimFiction's
  * authentication page.
  * @param {Object} request the request object. Of note, request.parameter.code
- * is the request token, used to generate the access token (OAuth2 library will
- * do this automatically for you with Service_.prototype.handleCallback), and
- * you should check that request.parameter.state is equal to the state value
- * passed to the OAuth earlier.
+ * is the request token, used to generate the access token (OAuth2 library can
+ * do this automatically for you with Service_.prototype.handleCallback).
  * @return {HtmlOutput} the landing page shown to the user after the auth is
  * complete. In an actual app, you will probably want to use
  * createHtmlOutputFromFile to have a full page, instead of a single line of
  * text.
  */
 function authCallback(request) {
-  const state = request.parameter.state;
   const cache = CacheService.getUserCache();
-
-  var isAuthorized = true;
-  if (state !== cache.get('state')) {
-    isAuthorized = false;
-  }
-
   const service = getService();
-  cache.remove('state');
+  var isAuthorized = true;
   try { isAuthorized &= service.handleCallback(request); }
   catch (e) {
     isAuthorized = false;
